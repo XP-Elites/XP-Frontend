@@ -17,9 +17,6 @@ function FileUploader({ onSuccess, onError }) {
     const formData = new FormData();
     formData.append("file", file);
 
-    if (file.size > 5000000) {
-    }
-
     try {
       await axios.post("https://httpbin.org/post", formData, {
         headers: {

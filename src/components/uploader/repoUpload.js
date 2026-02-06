@@ -13,7 +13,7 @@ function RepoUploader({ onSuccess, onError }) {
     if (!link) return;
 
     // Validate GitHub URL format
-    const githubPattern = /^https:\/\/github\.com\/[\w-]+\/[\w-]+\/?$/;
+    const githubPattern = /^https:\/\/github\.com\/[\w.-]+\/[\w.-]+\/?$/;
     if (!githubPattern.test(link)) {
       if (onError)
         onError(
