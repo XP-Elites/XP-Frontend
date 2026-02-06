@@ -10,8 +10,8 @@ function Footer(props) {
   // View
   return (
     <footer>
-      <h1>Footer Component</h1>
-      <p>This is the footer section of the layout.</p>
+      {/* <h1>Footer Component</h1>
+      <p>This is the footer section of the layout.</p> */}
     </footer>
   );
 }

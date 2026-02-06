@@ -1,0 +1,33 @@
+.container {
+  height: 400px;
+  width: 310px;
+  border: 1px solid white;
+  border-radius: 16px;
+  background-color: rgb(58, 70, 94);
+  color: rgb(255, 255, 255);
+  padding: 5px;
+  margin: 7px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+}
+
+.success {
+  margin-top: -2px;
+  font-size: large;
+  color: aquamarine;
+}
+
+.error {
+  margin-top: -2px;
+  font-size: large;
+  color: #ff6b6b;
+}

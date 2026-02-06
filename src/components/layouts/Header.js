@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
+import "../css/Header.css";
 
 function Header(props) {
   // Properties
@@ -11,7 +12,7 @@ function Header(props) {
 
   // View
   return (
-    <header>
+    <header className="header">
       <p1></p1>
       <Link to="/">
         <h1>XP Coursework</h1>
