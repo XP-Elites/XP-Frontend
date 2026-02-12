@@ -23,6 +23,10 @@ jobs:
           cache: npm
       - name: Install deps
         run: npm i
+      - name: Configure git user
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
       - name: Deploy page
         run: npm run deploy
         env:
