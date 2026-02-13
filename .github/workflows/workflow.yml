@@ -10,6 +10,7 @@ permissions:
   id-token: write
 jobs:
   build-and-deploy:
+    environment: github-pages
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -30,5 +31,5 @@ jobs:
           git remote set-url origin https://${github_token}@github.com/${repository}
           npm run deploy
         env:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GH_PAT }}
           repository: ${{ github.repository }}
