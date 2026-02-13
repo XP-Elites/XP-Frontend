@@ -1,0 +1,14 @@
+:root {
+  /* Color palette from reference image */
+  --coral-bg: #e57373;
+  --coral-bg-2: #d45959; /* subtle gradient */
+  --gold-accent: #f9a825;
+  --container-bg: #2d2d2d;
+  --text: #ffffff;
+  --blue-accent: #2196f3;
+}
+
+body {
+  /* main background — coral with a subtle vertical gradient */
+  background-color: var(--coral-bg);
+}

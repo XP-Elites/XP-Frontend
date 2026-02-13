@@ -3,8 +3,7 @@
   justify-content: center; /* or use flex-start to left-align within page */
   align-items: center;
   padding: 1rem;
-  background-color: #ffffff;
-  color: rgb(58, 70, 94);
+  color: rgb(255, 255, 255);
 }
 
 .header h1 {

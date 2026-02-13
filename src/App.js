@@ -3,6 +3,7 @@ import Layout from "./components/layouts/Layout.js";
 import Home from "./components/pages/Home.js";
 import Login from "./components/pages/Login.js";
 import PageNotFound from "./components/pages/404.js";
+import "./index.css";
 
 function App() {
   return (
