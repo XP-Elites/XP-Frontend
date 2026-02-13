@@ -31,3 +31,4 @@ jobs:
           npm run deploy
         env:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
