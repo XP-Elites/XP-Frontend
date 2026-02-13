@@ -1,0 +1,143 @@
+.login-page .container {
+  height: 440px;
+  width: 340px;
+  border: 1px solid white;
+  border-radius: 6px;
+  background-color: rgb(58, 70, 94);
+  color: rgb(255, 255, 255);
+  padding: 20px;
+  margin: 7px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.login-page .Header {
+  font-size: 40px;
+  margin-bottom: 40px;
+  margin-top: 30px;
+}
+
+.login-page .wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+}
+
+.login-page .sign_log_container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  gap: 15px;
+}
+
+.login-page .SignUp,
+.login-page .Login {
+  display: flex;
+  margin-top: 10px;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 24px;
+  min-width: 120px;
+  width: 65%;
+  border-radius: 25px;
+  background-color: rgb(79, 93, 117);
+  color: white;
+  cursor: pointer;
+  border: 1px solid rgb(100, 116, 139);
+  font-weight: 500;
+
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.login-page .text {
+  margin-bottom: 30px;
+}
+
+.login-page .PageSwitch {
+  text-align: center;
+  margin-top: auto;
+}
+.login-page .SignUp:hover,
+.login-page .Login:hover {
+  background-color: rgb(100, 116, 139);
+}
+
+.login-page .SignUp:active,
+.login-page .Login:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.login-page .input-group {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
+.login-page .input-group label {
+  width: 100%;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgb(220, 220, 220);
+  text-align: left;
+}
+
+.login-page .input-group input {
+  width: 100%;
+  padding: 9px 16px;
+  border-radius: 6px;
+  border: none;
+  background-color: rgb(230, 230, 230);
+  color: rgb(50, 50, 50);
+  font-size: 14px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.login-page .input-group input::placeholder {
+  color: rgb(130, 130, 130);
+}
+
+.login-page .input-group input:focus {
+  background-color: rgb(240, 240, 240);
+  box-shadow: 0 0 0 3px rgba(100, 116, 139, 0.3);
+}
+
+.login-page .input-with-icon {
+  position: relative;
+  width: 100%;
+}
+
+.login-page .input-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.login-page .input-with-icon input {
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: 42px;
+}
+
+/* .submit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width:;
+  height:;
+  color: azure;
+  background-color: aquamarine;
+  border-radius: 50;
+} */
