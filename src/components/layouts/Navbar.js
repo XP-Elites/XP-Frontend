@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router";
 
 function Navbar(props) {
   // Properties
@@ -15,7 +15,7 @@ function Navbar(props) {
     <nav>
       <div className="nav-item">
         <NavLink to="/" className={getLinkStyle}>
-          Home
+          {/* Home */}
         </NavLink>
       </div>
     </nav>
