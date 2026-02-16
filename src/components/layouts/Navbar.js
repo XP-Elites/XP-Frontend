@@ -1,4 +1,6 @@
-import { NavLink } from "react-router";
+import { NavLink } from "react-router-dom";
+import Logo from "../icons/Logo";
+import styles from "../UI/Navbar.module.css";
 
 function Navbar(props) {
   // Properties
@@ -12,10 +14,10 @@ function Navbar(props) {
   const getLinkStyle = ({ isActive }) => (isActive ? "navSelected" : null);
   // View
   return (
-    <nav>
-      <div className="nav-item">
+    <nav className={styles.barStyle}>
+      <div className={styles.navItem}>
         <NavLink to="/" className={getLinkStyle}>
-          {/* Home */}
+          <Logo />
         </NavLink>
       </div>
     </nav>

@@ -1,6 +1,5 @@
 import { Link } from "react-router";
-import "../UI/Header.css";
-import Logo from "../icons/Logo";
+import styles from "../UI/Header.module.css";
 
 function Header(props) {
   // Properties
@@ -13,14 +12,8 @@ function Header(props) {
 
   // View
   return (
-    <header className="header">
-      <p1></p1>
-      <Link to="/">
-        <h1 className="TitleLogo">
-          <Logo />
-          CodeShield
-        </h1>
-      </Link>
+    <header className={styles.header}>
+      <Link to="/">{/* <h1 className={styles.TitleLogo}></h1> */}</Link>
     </header>
   );
 }

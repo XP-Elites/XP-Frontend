@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import "../UI/Upload.css";
+import styles from "../UI/Upload.module.css";
 
 function RepoUploader({ onSuccess, onError }) {
   const [link, setLink] = useState("");
@@ -40,9 +40,9 @@ function RepoUploader({ onSuccess, onError }) {
   }
 
   return (
-    <div className="repo-container">
+    <div className={styles.uploadContainer}>
       <input
-        className="repo"
+        className={styles.repo}
         type="text"
         placeholder="https://github.com/{username}/{repository}"
         value={link}

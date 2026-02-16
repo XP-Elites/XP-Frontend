@@ -1,4 +1,4 @@
-.login-page .container {
+.container {
   height: 440px;
   width: 340px;
   border: 1px solid white;
@@ -6,35 +6,36 @@
   background-color: rgb(58, 70, 94);
   color: rgb(255, 255, 255);
   padding: 20px;
-  margin: 7px 0;
+  margin: 14px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 15px;
 }
 
-.login-page .Header {
+.Header {
   font-size: 40px;
   margin-bottom: 40px;
   margin-top: 30px;
 }
 
-.login-page .wrapper {
+.wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 50vh;
+  flex-direction: column;
 }
 
-.login-page .sign_log_container {
+.sign_log_container {
   display: flex;
   width: 100%;
   justify-content: center;
   gap: 15px;
 }
 
-.login-page .SignUp,
-.login-page .Login {
+.SignUp,
+.Login {
   display: flex;
   margin-top: 10px;
   justify-content: center;
@@ -53,26 +54,26 @@
   text-align: center;
 }
 
-.login-page .text {
+.text {
   margin-bottom: 30px;
 }
 
-.login-page .PageSwitch {
+.PageSwitch {
   text-align: center;
   margin-top: auto;
 }
-.login-page .SignUp:hover,
-.login-page .Login:hover {
+.SignUp:hover,
+.Login:hover {
   background-color: rgb(100, 116, 139);
 }
 
-.login-page .SignUp:active,
-.login-page .Login:active {
+.SignUp:active,
+.Login:active {
   transform: translateY(0);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.login-page .input-group {
+.input-group {
   width: 80%;
   display: flex;
   flex-direction: column;
@@ -80,7 +81,7 @@
   align-items: center;
 }
 
-.login-page .input-group label {
+.input-group label {
   width: 100%;
   font-size: 14px;
   font-weight: 500;
@@ -88,7 +89,7 @@
   text-align: left;
 }
 
-.login-page .input-group input {
+.input-group input {
   width: 100%;
   padding: 9px 16px;
   border-radius: 6px;
@@ -100,21 +101,21 @@
   transition: all 0.3s ease;
 }
 
-.login-page .input-group input::placeholder {
+.input-group input::placeholder {
   color: rgb(130, 130, 130);
 }
 
-.login-page .input-group input:focus {
+.input-group input:focus {
   background-color: rgb(240, 240, 240);
   box-shadow: 0 0 0 3px rgba(100, 116, 139, 0.3);
 }
 
-.login-page .input-with-icon {
+.input-with-icon {
   position: relative;
   width: 100%;
 }
 
-.login-page .input-icon {
+.input-icon {
   position: absolute;
   left: 12px;
   top: 50%;
@@ -125,19 +126,19 @@
   pointer-events: none;
 }
 
-.login-page .input-with-icon input {
+.input-with-icon input {
   width: 100%;
   box-sizing: border-box;
   padding-left: 42px;
 }
 
 /* .submit {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width:;
-  height:;
-  color: azure;
-  background-color: aquamarine;
-  border-radius: 50;
-} */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width:;
+    height:;
+    color: azure;
+    background-color: aquamarine;
+    border-radius: 50,
+  } */
