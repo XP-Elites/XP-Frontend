@@ -1,5 +1,6 @@
 .header {
   display: flex;
+  flex-direction: column;
   justify-content: center; /* or use flex-start to left-align within page */
   align-items: center;
   padding: 1rem;
@@ -18,7 +19,8 @@
 .TitleLogo {
   display: flex;
   align-items: center;
-  gap: 8px;
+  flex-direction: column;
+  gap: 0px;
   margin: 0;
   font-weight: 600;
 }

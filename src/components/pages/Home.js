@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../UI/Home.css";
+import styles from "../UI/Home.module.css";
 import FileUploader from "../uploader/fileUpload";
 import FolderUploader from "../uploader/folderUpload";
 import RepoUploader from "../uploader/repoUpload";
@@ -20,9 +20,11 @@ function Home() {
   }
 
   return (
-    <div className="wrapper">
-      <div className="container">
-        <p className="header-wrapper">Upload a file, folder, or repository</p>
+    <div className={styles.wrapper}>
+      <div className={styles.container}>
+        <p className={styles["header-wrapper"]}>
+          Upload a file, folder, or repository
+        </p>
 
         <div>
           <button onClick={() => setUploadType("file")}>File Upload</button>
@@ -44,9 +46,9 @@ function Home() {
           <RepoUploader onSuccess={handleSuccess} onError={handleError} />
         )}
 
-        {status === "success" && <p className="success">{message}</p>}
+        {status === "success" && <p className={styles.success}>{message}</p>}
 
-        {status === "error" && <p className="error">{message}</p>}
+        {status === "error" && <p className={styles.error}>{message}</p>}
       </div>
     </div>
   );

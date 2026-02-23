@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import "../UI/Upload.css";
+import styles from "../UI/Upload.module.css";
 
 function FileUploader({ onSuccess, onError }) {
   const [file, setFile] = useState(null);
@@ -31,7 +31,7 @@ function FileUploader({ onSuccess, onError }) {
   }
 
   return (
-    <div className="repo-container">
+    <div className={styles.uploadContainer}>
       <input type="file" onChange={handleFileChange} />
       {file && (
         <>
