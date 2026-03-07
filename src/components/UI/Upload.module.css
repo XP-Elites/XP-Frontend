@@ -1,34 +1,270 @@
-.repo {
-  width: 100%;
-  max-width: 600px;
-  padding-left: 8px;
-  padding-top: 2px;
-  padding-bottom: 6px;
-  border-radius: 7px;
-  border: 2px solid hsl(0, 0%, 80%);
-  outline: 0;
-  box-sizing: border-box;
-  margin: 0 auto;
-  display: block;
-}
-.uploadContainer {
-  width: 100%;
+.container {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
+  min-height: 90vh;
+  padding: 0;
 }
 
-.repo::placeholder {
-  color: #b4b4b4; /* Darker gray - adjust as needed */
-  opacity: 1; /* Ensure full opacity */
+.layoutRow {
+  width: min(1520px, calc(100% - 40px));
+  display: grid;
+  grid-template-columns: minmax(0, 2.4fr) minmax(320px, 0.95fr);
+  gap: 28px;
+  align-items: stretch;
 }
-.repo-container input[type="file"] {
-  /* color: transparent; */
-  text-align: center;
+
+.box {
+  background-color: var(--box-bg);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: space-between;
+  height: 80vh;
+  max-height: 80vh;
+  padding: 28px;
+  border-radius: 20px;
+  box-shadow: 0 12px 32px rgba(149, 157, 165, 0.35);
+  overflow: hidden;
 }
-.repo.repo--error {
-  border: 2px solid red;
+
+.summaryBox {
+  background-color: var(--box-bg);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  height: 80vh;
+  max-height: 80vh;
+  padding: 24px;
+  border-radius: 20px;
+  box-shadow: 0 12px 32px rgba(149, 157, 165, 0.35);
+  overflow: hidden;
 }
-.repo.repo--value {
-  border: 2px solid #2684ff;
+
+.header {
+  background: linear-gradient(90deg, #5974df 0%, #5a7be6 100%);
+  border-radius: 12px;
+  color: #fff;
+  padding: 12px 18px;
+  margin-bottom: 0;
+}
+
+.headerTitle {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.sectionLabel {
+  margin: 0;
+  padding: 16px 16px 0;
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: #232633;
+}
+
+.options {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  align-items: stretch;
+  margin: 24px 0;
+}
+
+.optionCard {
+  min-width: 0;
+  overflow: hidden;
+  border-radius: 12px;
+  background: var(--input-bg);
+  display: flex;
+  flex-direction: column;
+}
+
+.optionBody {
+  padding: 0;
+  flex: 1;
+  min-height: 0;
+}
+
+.optionCard:last-child {
+  position: relative;
+  background: #f4f4f6;
+}
+
+.optionCard:last-child .sectionLabel {
+  display: none;
+}
+
+.optionCard:last-child::before {
+  content: "Upload Files";
+  position: absolute;
+  top: 14px;
+  left: 18px;
+  color: #22252d;
+  font-size: 1rem;
+  font-weight: 700;
+  z-index: 1;
+}
+
+.optionCard:last-child::after {
+  content: "Uploaded project attachments";
+  position: absolute;
+  top: 38px;
+  left: 18px;
+  color: #8b8d99;
+  font-size: 0.82rem;
+  z-index: 1;
+}
+
+.optionCard:last-child .optionBody {
+  padding: 64px 18px 18px;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.repoSection {
+  background-color: var(--input-bg);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.repoSectionBody {
+  padding: 12px 16px 16px;
+}
+
+.repoInput {
+  width: 100%;
+  border: none;
+  border-radius: 16px;
+  background-color: var(--box-bg);
+  color: var(--txt-main-color);
+  padding: 14px 16px;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.repoInput::placeholder {
+  color: var(--txt-second-color);
+}
+
+.summary {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  flex-direction: column;
+}
+
+.summaryHeader {
+  margin-bottom: 16px;
+}
+
+.summaryMeta {
+  margin: 12px 0 0;
+  color: var(--txt-second-color);
+}
+
+.summaryBody {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 8px;
+  margin-bottom: 20px;
+}
+
+.summaryCard,
+.fileItem {
+  background-color: var(--input-bg);
+  border-radius: 20px;
+  padding: 18px 20px;
+}
+
+.summaryCardTitle,
+.fileName {
+  margin: 0 0 8px;
+  font-weight: 600;
+}
+
+.summaryCardMeta,
+.fileMeta,
+.emptyState {
+  margin: 0;
+  color: var(--txt-second-color);
+}
+
+.codePreview {
+  margin: 12px 0 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font:
+    500 0.95rem/1.6 "Courier New",
+    Courier,
+    monospace;
+}
+
+.repoPreview {
+  margin: 12px 0 0;
+  color: var(--txt-main-color);
+  overflow-wrap: anywhere;
+}
+
+.fileList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.uploadButton {
+  align-self: flex-start;
+  border: none;
+  border-radius: 999px;
+  background-color: #1fa866;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 14px 22px;
+  margin-top: auto;
+}
+
+.uploadButton:disabled {
+  background-color: #9bb9ab;
+  cursor: not-allowed;
+}
+
+@media (max-width: 960px) {
+  .options {
+    grid-template-columns: 1fr;
+  }
+
+  .container {
+    align-items: flex-start;
+    min-height: auto;
+    padding: 24px 16px;
+  }
+
+  .layoutRow {
+    width: 100%;
+    grid-template-columns: 1fr;
+  }
+
+  .box,
+  .summaryBox {
+    height: auto;
+    max-height: none;
+    overflow: visible;
+  }
+
+  .summary {
+    min-height: auto;
+  }
+
+  .summaryBody {
+    flex: initial;
+    max-height: 320px;
+  }
 }

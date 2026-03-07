@@ -20,7 +20,9 @@ function Navbar(props) {
       {/* Logo stays at the top */}
       <div className={styles.navItemTop}>
         <NavLink to="/" className={styles.navLink}>
-          <Logo/>
+          <Logo />
+        </NavLink>
+        <NavLink to="/refactor" className={styles.navLink}>
           <div className={styles.navLinkContent}>
             <Icons icon="FaCode" size={30} style="Black" />
             <span className={styles.iconText}>Refactor</span>

@@ -1,0 +1,129 @@
+/* drop-file-input.css */
+.drop-file-input {
+  position: relative;
+  width: min(800px, 100%);
+  height: 100%;
+  min-height: 300px;
+  border: 2px dashed #aca3ff;
+  border-radius: 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #f6f6fb;
+}
+
+.drop-file-input input {
+  opacity: 0;
+  position: absolute;
+
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.drop-file-input:hover,
+.drop-file-input.dragover {
+  border-color: #7f74f2;
+  background-color: #f1f1ff;
+}
+
+.drop-file-input__label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: #21242c;
+  font-weight: 600;
+  padding: 10px;
+}
+
+.drop-file-input__label img {
+  width: 54px;
+  margin-bottom: 14px;
+}
+
+.drop-file-input__label p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #252833;
+}
+
+.drop-file-input__label p::after {
+  content: "Max. file size: 256 MB";
+  display: block;
+  margin-top: 6px;
+  color: #989bab;
+  font-size: 0.78rem;
+  font-weight: 400;
+}
+
+.drop-file-input__label::after {
+  content: "Select files";
+  margin-top: 16px;
+  padding: 10px 18px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #6154ef 0%, #4e42df 100%);
+  color: #fff;
+  font-size: 0.88rem;
+  font-weight: 600;
+  box-shadow: 0 8px 18px rgba(82, 67, 221, 0.22);
+}
+
+.drop-file-preview {
+  margin-top: 30px;
+  width: min(800px, 100%);
+}
+
+.drop-file-preview p {
+  font-weight: 500;
+}
+
+.drop-file-preview__title {
+  margin-bottom: 20px;
+}
+
+.drop-file-preview__item {
+  position: relative;
+  display: flex;
+  margin-bottom: 10px;
+  background-color: var(--input-bg);
+  padding: 15px;
+  border-radius: 20px;
+}
+
+.drop-file-preview__item img {
+  width: 50px;
+  margin-right: 20px;
+}
+
+.drop-file-preview__item__info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.drop-file-preview__item__del {
+  background-color: var(--box-bg);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  box-shadow: var(--box-shadow);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.drop-file-preview__item:hover .drop-file-preview__item__del {
+  opacity: 1;
+}

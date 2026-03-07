@@ -1,0 +1,118 @@
+.copyPaste {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: min(800px, 100%);
+  height: 100%;
+}
+
+.copyPaste__input {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  background-color: var(--input-bg);
+  border: 4px solid var(--border-color);
+  border-radius: 20px;
+  padding: 24px;
+  min-height: 0;
+}
+
+.copyPaste__label {
+  margin-bottom: 16px;
+}
+
+.copyPaste__title {
+  color: var(--txt-main-color);
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+
+.copyPaste__subtitle {
+  color: var(--txt-second-color);
+  margin: 0;
+}
+
+.copyPaste__textarea {
+  resize: none;
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  border: none;
+  border-radius: 16px;
+  background-color: var(--box-bg);
+  color: var(--txt-main-color);
+  font:
+    500 0.95rem/1.6 "Courier New",
+    Courier,
+    monospace;
+  padding: 20px;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.copyPaste__textarea::placeholder {
+  color: var(--txt-second-color);
+}
+
+.copyPaste__preview {
+  width: 100%;
+}
+
+.copyPaste__previewHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.copyPaste__previewTitle {
+  font-weight: 500;
+  margin: 0;
+}
+
+.copyPaste__clear {
+  border: none;
+  border-radius: 999px;
+  background-color: var(--input-bg);
+  color: var(--txt-main-color);
+  cursor: pointer;
+  padding: 10px 16px;
+}
+
+.copyPaste__summary {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 12px;
+  color: var(--txt-second-color);
+}
+
+.copyPaste__summary p {
+  margin: 0;
+}
+
+.copyPaste__content {
+  max-height: 280px;
+  overflow-y: auto;
+  background-color: var(--input-bg);
+  border-radius: 20px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.copyPaste__code {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: var(--txt-main-color);
+  font:
+    500 0.95rem/1.6 "Courier New",
+    Courier,
+    monospace;
+}
+
+.copyPaste__empty {
+  margin: 0;
+  color: var(--txt-second-color);
+}

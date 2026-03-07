@@ -6,6 +6,15 @@
   --container-bg: #2d2d2d;
   --text: #ffffff;
   --blue-accent: #2196f3;
+
+  /* Tutorial drag-and-drop variables */
+  --body-bg: #f5f5f5;
+  --box-bg: #fff;
+  --box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  --input-bg: #f4f6f8;
+  --txt-color: #2f3542;
+  --txt-second-color: #ccc;
+  --border-color: #e0e0e0;
 }
 
 body {
