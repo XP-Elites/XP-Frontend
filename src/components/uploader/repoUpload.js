@@ -1,6 +1,18 @@
 import { useState } from "react";
-import axios from "axios";
 import styles from "../UI/Upload.module.css";
+import { postUploadJson } from "./uploadClient";
+
+const githubPattern = /^https:\/\/github\.com\/[\w.-]+\/[\w.-]+\/?$/;
+
+export async function uploadRepo(link) {
+  if (!githubPattern.test(link)) {
+    throw new Error(
+      "Invalid GitHub URL. Expected format: https://github.com/{username}/{repository}",
+    );
+  }
+
+  await postUploadJson({ repoURL: link });
+}
 
 function RepoUploader({ onSuccess, onError }) {
   const [link, setLink] = useState("");
@@ -12,30 +24,18 @@ function RepoUploader({ onSuccess, onError }) {
   async function handleRepoUpload() {
     if (!link) return;
 
-    // Validate GitHub URL format
-    const githubPattern = /^https:\/\/github\.com\/[\w.-]+\/[\w.-]+\/?$/;
-    if (!githubPattern.test(link)) {
-      if (onError)
-        onError(
-          "Invalid GitHub URL. Expected format: https://github.com/{username}/{repository}",
-        );
-      return;
-    }
-
     try {
-      await axios.post(
-        "https://httpbin.org/post",
-        { repoURL: link },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
-      );
+      await uploadRepo(link);
       if (onSuccess) onSuccess("Repository uploaded successfully!");
       setLink(""); // Clear after successful upload
     } catch (error) {
-      if (onError) onError(error.message || "Repository upload failed");
+      if (onError) {
+        onError(
+          error.code === "ECONNABORTED"
+            ? "Repository upload timed out before the endpoint responded"
+            : error.message || "Repository upload failed",
+        );
+      }
     }
   }
 

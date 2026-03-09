@@ -1,6 +1,15 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import styles from "./copyPaste.module.css";
+import { postUploadJson } from "./uploadClient";
+
+export async function uploadCopyPaste(code) {
+  if (!code || !code.trim()) {
+    return;
+  }
+
+  await postUploadJson({ code });
+}
 
 function CopyPaste({
   onCodeChange,

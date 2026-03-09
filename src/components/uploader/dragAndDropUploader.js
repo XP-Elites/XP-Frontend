@@ -6,8 +6,14 @@ import { ImageConfig } from "../icons/ImageConfig.js";
 
 const DropFileInput = (props) => {
   const [dragOver, setDragOver] = useState(false);
-  const [fileList, setFileList] = useState([]);
-  const { onFileChange, showPreview = true } = props;
+  const {
+    onFileChange,
+    selectedFiles = [],
+    showPreview = true,
+    selectionMode = "file",
+  } = props;
+
+  const isFolderMode = selectionMode === "folder";
 
   const onDragEnter = () => setDragOver(true);
   const onDragLeave = () => setDragOver(false);
@@ -16,8 +22,7 @@ const DropFileInput = (props) => {
   const onFileDrop = (e) => {
     const newFiles = Array.from(e.target.files || []);
     if (newFiles.length > 0) {
-      const updatedList = [...fileList, ...newFiles];
-      setFileList(updatedList);
+      const updatedList = [...selectedFiles, ...newFiles];
       if (onFileChange) {
         onFileChange(updatedList);
       }
@@ -25,9 +30,8 @@ const DropFileInput = (props) => {
   };
 
   const fileRemove = (file) => {
-    const updatedList = [...fileList];
-    updatedList.splice(fileList.indexOf(file), 1);
-    setFileList(updatedList);
+    const updatedList = [...selectedFiles];
+    updatedList.splice(selectedFiles.indexOf(file), 1);
     if (onFileChange) {
       onFileChange(updatedList);
     }
@@ -40,25 +44,39 @@ const DropFileInput = (props) => {
         onDragEnter={onDragEnter}
         onDragLeave={onDragLeave}
         onDrop={onDrop}
+        data-selection-mode={selectionMode}
       >
         <div className={styles["drop-file-input__label"]}>
           <img
             src="https://media.geeksforgeeks.org/wp-content/uploads/20240308113922/Drag-.png"
             alt=""
           />
-          <p>Drag & Drop your files here</p>
+          <p>
+            {isFolderMode
+              ? "Drag & Drop your folder contents here"
+              : "Drag & Drop your files here"}
+          </p>
         </div>
-        <input type="file" multiple value="" onChange={onFileDrop} />
+        <input
+          type="file"
+          multiple
+          value=""
+          onChange={onFileDrop}
+          {...(isFolderMode ? { webkitdirectory: "", directory: "" } : {})}
+        />
       </div>
-      {showPreview && fileList.length > 0 ? (
+      {showPreview && selectedFiles.length > 0 ? (
         <div className={styles["drop-file-preview"]}>
-          <p className={styles["drop-file-preview__title"]}>Ready to upload</p>
+          <p className={styles["drop-file-preview__title"]}>
+            {isFolderMode ? "Folder ready to upload" : "Ready to upload"}
+          </p>
           <div className={styles["drop-file-preview__list"]}>
-            {fileList.map((item, index) => (
+            {selectedFiles.map((item, index) => (
               <div key={index} className={styles["drop-file-preview__item"]}>
                 <img
                   src={
-                    ImageConfig[item.type.split("/")[1]] || ImageConfig["default"]
+                    ImageConfig[item.type.split("/")[1]] ||
+                    ImageConfig["default"]
                   }
                   alt=""
                 />
@@ -83,7 +101,9 @@ const DropFileInput = (props) => {
 
 DropFileInput.propTypes = {
   onFileChange: PropTypes.func,
+  selectedFiles: PropTypes.arrayOf(PropTypes.object),
   showPreview: PropTypes.bool,
+  selectionMode: PropTypes.oneOf(["file", "folder"]),
 };
 
 export default DropFileInput;

@@ -2,7 +2,7 @@
 .drop-file-input {
   position: relative;
   width: min(800px, 100%);
-  height: 100%;
+  height: 80%;
   min-height: 300px;
   border: 2px dashed #aca3ff;
   border-radius: 18px;
@@ -17,7 +17,6 @@
 .drop-file-input input {
   opacity: 0;
   position: absolute;
-
   top: 0;
   left: 0;
   width: 100%;
@@ -71,6 +70,10 @@
   font-size: 0.88rem;
   font-weight: 600;
   box-shadow: 0 8px 18px rgba(82, 67, 221, 0.22);
+}
+
+.drop-file-input[data-selection-mode="folder"] .drop-file-input__label::after {
+  content: "Select folder";
 }
 
 .drop-file-preview {

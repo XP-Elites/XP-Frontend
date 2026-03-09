@@ -44,7 +44,7 @@
 
 .header {
   background: linear-gradient(90deg, #5974df 0%, #5a7be6 100%);
-  border-radius: 12px;
+  border-radius: 12px 12px 0 0;
   color: #fff;
   padding: 12px 18px;
   margin-bottom: 0;
@@ -58,7 +58,15 @@
 
 .sectionLabel {
   margin: 0;
-  padding: 16px 16px 0;
+  padding: 16px 16px 0px 0px;
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: #232633;
+}
+
+.repoHeader {
+  margin: 0;
+  padding: 16px 16px 0px 16px;
   font-size: 0.98rem;
   font-weight: 600;
   color: #232633;
@@ -125,9 +133,56 @@
   box-sizing: border-box;
 }
 
+.uploadSwitchRow {
+  display: flex;
+  margin-bottom: 18px;
+}
+
+.uploadModeLabel {
+  color: #5f6472;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.uploadSwitch {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px;
+  border-radius: 999px;
+  background: #e4e6eb;
+}
+
+.switchOption {
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: #5f6472;
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 8px 14px;
+  transition:
+    background-color 0.18s ease,
+    color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.switchOptionActive {
+  background: #ffffff;
+  color: #22252d;
+  box-shadow: 0 2px 10px rgba(34, 37, 45, 0.12);
+}
+
+.folderPicker {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
 .repoSection {
   background-color: var(--input-bg);
-  border-radius: 12px;
+  border-radius: 0 0 12px 12px;
   overflow: hidden;
 }
 
@@ -147,6 +202,48 @@
 }
 
 .repoInput::placeholder {
+  color: var(--txt-second-color);
+}
+
+.folderCard {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.folderTitle {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #22252d;
+}
+
+.folderSubtitle {
+  margin: 8px 0 0;
+  color: #8b8d99;
+  line-height: 1.5;
+}
+
+.folderInput {
+  display: none;
+}
+
+.folderButton {
+  align-self: flex-start;
+  margin-top: 8px;
+  border: none;
+  border-radius: 999px;
+  background-color: #5974df;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 12px 18px;
+}
+
+.folderMeta {
+  margin: 16px 0 0;
   color: var(--txt-second-color);
 }
 
@@ -177,17 +274,44 @@
   margin-bottom: 20px;
 }
 
+.summaryCardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
 .summaryCard,
 .fileItem {
   background-color: var(--input-bg);
   border-radius: 20px;
-  padding: 18px 20px;
+}
+
+.summaryCard {
+  padding: 18px 16px;
+}
+
+.fileItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  min-width: 0;
+  padding: 18px 16px;
+}
+
+.fileDetails {
+  flex: 1;
+  min-width: 0;
 }
 
 .summaryCardTitle,
 .fileName {
   margin: 0 0 8px;
   font-weight: 600;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .summaryCardMeta,
@@ -219,6 +343,19 @@
   gap: 12px;
 }
 
+.removeButton {
+  border: none;
+  background: transparent;
+  color: #c54c4c;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 0;
+  margin-left: auto;
+  text-align: right;
+  align-self: flex-start;
+  flex-shrink: 0;
+}
+
 .uploadButton {
   align-self: flex-start;
   border: none;
@@ -236,9 +373,26 @@
   cursor: not-allowed;
 }
 
+.success {
+  margin: 16px 0 0;
+  color: aquamarine;
+  font-weight: 600;
+}
+
+.error {
+  margin: 16px 0 0;
+  color: #ff6b6b;
+  font-weight: 600;
+}
+
 @media (max-width: 960px) {
   .options {
     grid-template-columns: 1fr;
+  }
+
+  .uploadSwitchRow {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .container {

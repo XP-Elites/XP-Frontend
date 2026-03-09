@@ -45,7 +45,7 @@ function Login() {
 
         <div className={styles.sign_log_container}>
           {status === "Login" ? (
-            <Link to="/home" className={styles.Login}>
+            <Link to="/upload" className={styles.Login}>
               {" "}
               Login
             </Link>

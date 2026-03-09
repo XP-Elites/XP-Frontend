@@ -1,34 +1,54 @@
 import { useState } from "react";
-import axios from "axios";
 import styles from "../UI/Upload.module.css";
+import { postUploadFormData } from "./uploadClient";
+import { validateUploadSize } from "./uploadValidation";
+
+export async function uploadFolder(input) {
+  const files = validateUploadSize(input);
+
+  if (files.length === 0) {
+    return;
+  }
+
+  const formData = new FormData();
+  files.forEach((file) => {
+    formData.append("folderFiles", file, file.webkitRelativePath || file.name);
+  });
+
+  await postUploadFormData(formData);
+}
 
 function FolderUploader({ onSuccess, onError }) {
   const [files, setFiles] = useState(null);
 
   function handleFolderChange(e) {
     if (e.target.files && e.target.files.length > 0) {
-      setFiles(e.target.files);
+      try {
+        validateUploadSize(e.target.files);
+        setFiles(e.target.files);
+      } catch (error) {
+        if (onError) {
+          onError(error.message || "Folder upload failed");
+        }
+      }
     }
   }
 
   async function handleFolderUpload() {
     if (!files) return;
 
-    const formData = new FormData();
-    Array.from(files).forEach((file) => {
-      formData.append("files", file, file.webkitRelativePath || file.name);
-    });
-
     try {
-      await axios.post("https://httpbin.org/post", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      await uploadFolder(files);
       if (onSuccess) onSuccess("Folder uploaded successfully!");
       setFiles(null);
     } catch (error) {
-      if (onError) onError(error.message || "Folder upload failed");
+      if (onError) {
+        onError(
+          error.code === "ECONNABORTED"
+            ? "Folder upload timed out before the endpoint responded"
+            : error.message || "Folder upload failed",
+        );
+      }
     }
   }
 
