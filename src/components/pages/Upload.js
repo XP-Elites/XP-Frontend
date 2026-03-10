@@ -201,35 +201,31 @@ function Upload() {
                     showPreview={false}
                   />
                 ) : (
-                  <>
-                    <DropFileInput
-                      onFileChange={(nextFiles) => updateFolderFiles(nextFiles)}
-                      selectedFiles={folderFiles}
-                      selectionMode="folder"
-                      showPreview={false}
-                    />
-                    <p className={styles.folderMeta}>
-                      {folderFiles.length > 0
-                        ? `${folderFiles.length} folder file${folderFiles.length === 1 ? "" : "s"} selected`
-                        : "Select a folder using the same drop area"}
-                    </p>
-                  </>
+                  <DropFileInput
+                    onFileChange={(nextFiles) => updateFolderFiles(nextFiles)}
+                    selectedFiles={folderFiles}
+                    selectionMode="folder"
+                    showPreview={false}
+                  />
                 )}
               </div>
             </div>
           </div>
+          <div className={styles.uploadButtonRow}>
+            <button
+              type="button"
+              className={styles.uploadButton}
+              onClick={handleUpload}
+              disabled={!hasUploadContent || isUploading}
+            >
+              {isUploading ? "Uploading..." : "Upload selected content"}
+            </button>
 
-          <button
-            type="button"
-            className={styles.uploadButton}
-            onClick={handleUpload}
-            disabled={!hasUploadContent || isUploading}
-          >
-            {isUploading ? "Uploading..." : "Upload selected content"}
-          </button>
-
-          {status === "success" && <p className={styles.success}>{message}</p>}
-          {status === "error" && <p className={styles.error}>{message}</p>}
+            {status === "success" && (
+              <p className={styles.success}>{message}</p>
+            )}
+            {status === "error" && <p className={styles.error}>{message}</p>}
+          </div>
         </div>
 
         <div className={styles.summaryBox}>
@@ -238,7 +234,15 @@ function Upload() {
               <h3 className={styles.sectionLabel}>Ready to upload</h3>
               <p className={styles.summaryMeta}>
                 {files.length} file{files.length === 1 ? "" : "s"} selected
-                {code ? ` | ${codeLines} lines of pasted code` : ""}
+                {code ? (
+                  <>
+                    {" | "}
+                    <span className={styles.defaultFont}>{codeLines}</span>
+                    {" lines of pasted code"}
+                  </>
+                ) : (
+                  ""
+                )}
                 {repoLink ? " | 1 GitHub repository link" : ""}
                 {files.length > 0 ? ` | ${totalSize}B total` : ""}
                 {folderFiles.length > 0
@@ -257,7 +261,12 @@ function Upload() {
                     <div>
                       <p className={styles.summaryCardTitle}>Pasted code</p>
                       <p className={styles.summaryCardMeta}>
-                        {codeLines} lines | {code.length} characters
+                        <span className={styles.defaultFont}>{codeLines}</span>
+                        {" lines | "}
+                        <span className={styles.defaultFont}>
+                          {code.length}
+                        </span>
+                        {" characters"}
                       </p>
                     </div>
                     <button

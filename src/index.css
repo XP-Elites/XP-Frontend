@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap");
+
 :root {
   /* Color palette from reference image */
   --coral-bg: #e57373;
@@ -17,7 +19,9 @@
   --border-color: #e0e0e0;
 }
 
-body {
+body,
+button {
   /* main background — coral with a subtle vertical gradient */
   background-color: var(--coral-bg);
+  font-family: "Pixelify Sans", monospace;
 }
