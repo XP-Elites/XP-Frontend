@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import Logo from "../icons/Logo";
 import Icons from "../icons/Icons";
-import styles from "../UI/Navbar.module.css";
+import styles from "../pages/pageCSS/Navbar.module.css";
 
 function Navbar(props) {
   // Properties
@@ -22,10 +22,10 @@ function Navbar(props) {
         <NavLink to="/" className={styles.navLink}>
           <Logo />
         </NavLink>
-        <NavLink to="/refactor" className={styles.navLink}>
+        <NavLink to="/upload" className={styles.navLink}>
           <div className={styles.navLinkContent}>
             <Icons icon="FaCode" size={30} style="Black" />
-            <span className={styles.iconText}>Refactor</span>
+            <span className={styles.iconText}>Upload</span>
           </div>
         </NavLink>
       </div>

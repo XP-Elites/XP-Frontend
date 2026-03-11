@@ -1,5 +1,6 @@
 import { useState } from "react";
-import styles from "../UI/Upload.module.css";
+import { useNavigate } from "react-router-dom";
+import styles from "./pageCSS/Upload.module.css";
 import DropFileInput from "../uploader/dragAndDropUploader.js";
 import CopyPaste, { uploadCopyPaste } from "../uploader/copyPaste.js";
 import { uploadFile } from "../uploader/fileUpload.js";
@@ -8,6 +9,7 @@ import { uploadRepo } from "../uploader/repoUpload.js";
 import { validateUploadSize } from "../uploader/uploadValidation.js";
 
 function Upload() {
+  const navigate = useNavigate();
   const [files, setFiles] = useState([]);
   const [code, setCode] = useState("");
   const [folderFiles, setFolderFiles] = useState([]);
@@ -16,6 +18,11 @@ function Upload() {
   const [status, setStatus] = useState("idle");
   const [message, setMessage] = useState("");
   const [isUploading, setIsUploading] = useState(false);
+
+  const resetUploadFeedback = () => {
+    setStatus("idle");
+    setMessage("");
+  };
 
   const onFileChange = (files) => {
     try {
@@ -26,16 +33,17 @@ function Upload() {
       return;
     }
 
-    setStatus("idle");
-    setMessage("");
+    resetUploadFeedback();
     setFiles(files);
   };
 
   const onCodeChange = (code) => {
+    resetUploadFeedback();
     setCode(code);
   };
 
   const onRepoChange = (event) => {
+    resetUploadFeedback();
     setRepoLink(event.target.value);
   };
 
@@ -47,28 +55,31 @@ function Upload() {
       return;
     }
 
-    setStatus("idle");
-    setMessage("");
+    resetUploadFeedback();
     setFolderFiles(nextFolderFiles);
   };
 
   const removeFile = (indexToRemove) => {
+    resetUploadFeedback();
     setFiles((currentFiles) =>
       currentFiles.filter((_, index) => index !== indexToRemove),
     );
   };
 
   const removeFolderFile = (indexToRemove) => {
+    resetUploadFeedback();
     setFolderFiles((currentFiles) =>
       currentFiles.filter((_, index) => index !== indexToRemove),
     );
   };
 
   const clearCode = () => {
+    resetUploadFeedback();
     setCode("");
   };
 
   const clearRepoLink = () => {
+    resetUploadFeedback();
     setRepoLink("");
   };
 
@@ -77,8 +88,7 @@ function Upload() {
       return;
     }
 
-    setStatus("idle");
-    setMessage("");
+    resetUploadFeedback();
     setUploadMode(nextMode);
   };
 
@@ -95,8 +105,7 @@ function Upload() {
   const handleUpload = async () => {
     if (isUploading) return;
 
-    setStatus("idle");
-    setMessage("");
+    resetUploadFeedback();
     setIsUploading(true);
 
     try {
@@ -212,14 +221,26 @@ function Upload() {
             </div>
           </div>
           <div className={styles.uploadButtonRow}>
-            <button
-              type="button"
-              className={styles.uploadButton}
-              onClick={handleUpload}
-              disabled={!hasUploadContent || isUploading}
-            >
-              {isUploading ? "Uploading..." : "Upload selected content"}
-            </button>
+            <div className={styles.uploadActions}>
+              <button
+                type="button"
+                className={styles.uploadButton}
+                onClick={handleUpload}
+                disabled={!hasUploadContent || isUploading}
+              >
+                {isUploading ? "Uploading..." : "Upload selected content"}
+              </button>
+
+              {status === "success" && (
+                <button
+                  type="button"
+                  className={styles.resultsButton}
+                  onClick={() => navigate("/results")}
+                >
+                  Show Results
+                </button>
+              )}
+            </div>
 
             {status === "success" && (
               <p className={styles.success}>{message}</p>

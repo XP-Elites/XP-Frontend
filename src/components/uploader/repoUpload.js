@@ -1,5 +1,5 @@
 import { useState } from "react";
-import styles from "../UI/Upload.module.css";
+import styles from "./repoUpload.module.css";
 import { postUploadJson } from "./uploadClient";
 
 const githubPattern = /^https:\/\/github\.com\/[\w.-]+\/[\w.-]+\/?$/;

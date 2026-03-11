@@ -1,7 +1,7 @@
 // DropFileInput.jsx
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import styles from "./DragAndDrop.module.css";
+import styles from "./dragAndDrop.module.css";
 import { ImageConfig } from "../icons/ImageConfig.js";
 
 const DropFileInput = (props) => {

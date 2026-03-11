@@ -363,25 +363,43 @@
   margin-top: auto;
 }
 
+.resultsButton {
+  align-self: flex-start;
+  border: none;
+  border-radius: 999px;
+  background-color: #5974df;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 14px 22px;
+}
+
 .uploadButton:disabled {
   background-color: #9bb9ab;
   cursor: not-allowed;
 }
 
 .success {
-  margin: 0 0;
+  margin: 0 0 0 auto;
   color: aquamarine;
   font-weight: 600;
 }
+
+.uploadActions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
 .uploadButtonRow {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   gap: 16px;
 }
 
 .error {
-  margin: 0 0;
+  margin: 0 0 0 auto;
   color: #ff6b6b;
   font-weight: 600;
 }
@@ -421,5 +439,16 @@
   .summaryBody {
     flex: initial;
     max-height: 320px;
+  }
+
+  .uploadButtonRow,
+  .uploadActions {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .success,
+  .error {
+    margin-left: 0;
   }
 }

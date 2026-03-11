@@ -1,5 +1,5 @@
 import { useState } from "react";
-import styles from "../UI/Home.module.css";
+import styles from "./pageCSS/Home.module.css";
 import FileUploader from "../uploader/fileUpload";
 import FolderUploader from "../uploader/folderUpload";
 import RepoUploader from "../uploader/repoUpload";

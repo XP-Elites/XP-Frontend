@@ -1,5 +1,5 @@
-import { Link } from "react-router";
-import styles from "../UI/Header.module.css";
+import { Link } from "react-router-dom";
+import styles from "../pages/pageCSS/Header.module.css";
 
 function Header(props) {
   // Properties

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import styles from "../UI/Upload.module.css";
+import styles from "../pages/pageCSS/Upload.module.css";
 import { postUploadFormData } from "./uploadClient";
 import { validateUploadSize } from "./uploadValidation";
 
