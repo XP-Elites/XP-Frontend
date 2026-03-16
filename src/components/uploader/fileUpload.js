@@ -1,21 +1,10 @@
 import { useState } from "react";
 import styles from "../pages/pageCSS/Upload.module.css";
-import { postUploadFormData } from "./uploadClient";
+import { uploadFilesForAnalysis } from "./uploadAnalysis";
 import { validateUploadSize } from "./uploadValidation";
 
-export async function uploadFile(input) {
-  const files = validateUploadSize(input);
-
-  if (files.length === 0) {
-    return;
-  }
-
-  const formData = new FormData();
-  files.forEach((file) => {
-    formData.append("files", file, file.webkitRelativePath || file.name);
-  });
-
-  await postUploadFormData(formData);
+export async function uploadFile(input, options) {
+  return uploadFilesForAnalysis(input, "Upload", options);
 }
 
 function FileUploader({ onSuccess, onError }) {
@@ -24,16 +13,12 @@ function FileUploader({ onSuccess, onError }) {
   function handleFileChange(e) {
     if (e.target.files) {
       const nextFile = e.target.files[0];
-      if (!nextFile) {
-        return;
-      }
+      if (!nextFile) return;
 
       try {
-        validateUploadSize(nextFile);
+        validateUploadSize([nextFile]);
       } catch (error) {
-        if (onError) {
-          onError(error.message || "File upload failed");
-        }
+        onError?.(error.message || "File upload failed");
         return;
       }
 
@@ -45,17 +30,19 @@ function FileUploader({ onSuccess, onError }) {
     if (!file) return;
 
     try {
-      await uploadFile(file);
-      if (onSuccess) onSuccess("File uploaded successfully!");
-      setFile(null); // Clear after successful upload
+      const result = await uploadFile(file);
+      onSuccess?.(
+        `File uploaded successfully. Job ID: ${result.uuid} (Status: ${result.status || "UNKNOWN"})`,
+      );
+      setFile(null);
     } catch (error) {
-      if (onError) {
-        onError(
-          error.code === "ECONNABORTED"
-            ? "File upload timed out before the endpoint responded"
+      onError?.(
+        error.code === "ECONNABORTED"
+          ? "File upload timed out before the endpoint responded"
+          : error.message === "Network Error"
+            ? "Network error: request sent but no response was received"
             : error.message || "File upload failed",
-        );
-      }
+      );
     }
   }
 

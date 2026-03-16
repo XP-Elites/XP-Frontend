@@ -8,7 +8,7 @@ export async function uploadCopyPaste(code) {
     return;
   }
 
-  await postUploadJson({ code });
+  return postUploadJson({ code });
 }
 
 function CopyPaste({

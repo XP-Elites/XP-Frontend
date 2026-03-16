@@ -6,6 +6,14 @@ import CopyPaste, { uploadCopyPaste } from "../uploader/copyPaste.js";
 import { uploadFile } from "../uploader/fileUpload.js";
 import { uploadFolder } from "../uploader/folderUpload.js";
 import { uploadRepo } from "../uploader/repoUpload.js";
+import {
+  getJobStatusMessage,
+  getUploadErrorMessage,
+} from "../uploader/uploadClient.js";
+import {
+  clearLatestUploadResult,
+  setLatestUploadResult,
+} from "../uploader/uploadResultStore.js";
 import { validateUploadSize } from "../uploader/uploadValidation.js";
 
 function Upload() {
@@ -18,6 +26,7 @@ function Upload() {
   const [status, setStatus] = useState("idle");
   const [message, setMessage] = useState("");
   const [isUploading, setIsUploading] = useState(false);
+  const [lastUploadResult, setLastUploadResult] = useState(null);
 
   const resetUploadFeedback = () => {
     setStatus("idle");
@@ -89,6 +98,11 @@ function Upload() {
     }
 
     resetUploadFeedback();
+    if (nextMode === "files") {
+      setFolderFiles([]);
+    } else {
+      setFiles([]);
+    }
     setUploadMode(nextMode);
   };
 
@@ -97,41 +111,91 @@ function Upload() {
     setMessage(nextMessage);
   };
 
+  const handleLoading = (nextMessage) => {
+    setStatus("loading");
+    setMessage(nextMessage);
+  };
+
   const handleError = (nextMessage) => {
     setStatus("error");
     setMessage(nextMessage);
+  };
+
+  const handleJobStatusUpdate = (statusPayload) => {
+    const nextMessage = getJobStatusMessage(statusPayload);
+    if (nextMessage) {
+      handleLoading(nextMessage);
+    }
   };
 
   const handleUpload = async () => {
     if (isUploading) return;
 
     resetUploadFeedback();
+    setLastUploadResult(null);
+    clearLatestUploadResult();
     setIsUploading(true);
+    handleLoading("Starting upload...");
+    let latestUploadResult = null;
+    const hasFileUpload =
+      (uploadMode === "files" && files.length > 0) ||
+      (uploadMode === "folder" && folderFiles.length > 0);
 
     try {
-      if (code.trim()) {
-        await uploadCopyPaste(code);
+      // /upload/files expects multipart file uploads. Only use JSON uploads
+      // when no file/folder payload is being sent in this request.
+      if (!hasFileUpload && code.trim()) {
+        const response = await uploadCopyPaste(code);
+        if (response) {
+          latestUploadResult = response;
+        }
       }
 
-      if (repoLink.trim()) {
-        await uploadRepo(repoLink.trim());
+      if (!hasFileUpload && repoLink.trim()) {
+        const response = await uploadRepo(repoLink.trim(), {
+          onStatusChange: handleJobStatusUpdate,
+        });
+        if (response) {
+          latestUploadResult = response;
+        }
       }
 
-      if (files.length > 0) {
-        await uploadFile(files);
+      if (uploadMode === "files" && files.length > 0) {
+        const response = await uploadFile(files, {
+          onStatusChange: handleJobStatusUpdate,
+        });
+        if (response) {
+          latestUploadResult = response;
+        }
       }
 
-      if (folderFiles.length > 0) {
-        await uploadFolder(folderFiles);
+      if (uploadMode === "folder" && folderFiles.length > 0) {
+        const response = await uploadFolder(folderFiles, {
+          onStatusChange: handleJobStatusUpdate,
+        });
+        if (response) {
+          latestUploadResult = response;
+        }
       }
 
-      handleSuccess("Upload completed successfully!");
+      setLastUploadResult(latestUploadResult);
+      if (latestUploadResult) {
+        setLatestUploadResult(latestUploadResult);
+      }
+      if (
+        latestUploadResult?.results ||
+        latestUploadResult?.cyclomatic_complexity
+      ) {
+        handleSuccess("Upload and analysis completed successfully!");
+      } else if (latestUploadResult?.uuid) {
+        handleSuccess(
+          `Upload accepted (UUID: ${latestUploadResult.uuid}). Analysis is still processing.`,
+        );
+      } else {
+        handleSuccess("Upload completed successfully!");
+      }
     } catch (error) {
-      handleError(
-        error.code === "ECONNABORTED"
-          ? "Upload timed out before the endpoint responded"
-          : error.message || "Upload failed",
-      );
+      handleError(getUploadErrorMessage(error));
     } finally {
       setIsUploading(false);
     }
@@ -144,6 +208,20 @@ function Upload() {
   const hasUploadContent = Boolean(
     code || repoLink || files.length > 0 || folderFiles.length > 0,
   );
+  const canShowResults = Boolean(lastUploadResult);
+
+  const handleShowResults = () => {
+    if (!lastUploadResult) {
+      return;
+    }
+
+    if (lastUploadResult) {
+      navigate("/results", { state: lastUploadResult });
+      return;
+    }
+
+    navigate("/results");
+  };
 
   return (
     <div className={styles.container}>
@@ -235,13 +313,17 @@ function Upload() {
                 <button
                   type="button"
                   className={styles.resultsButton}
-                  onClick={() => navigate("/results")}
+                  onClick={handleShowResults}
+                  disabled={!canShowResults}
                 >
                   Show Results
                 </button>
               )}
             </div>
 
+            {status === "loading" && (
+              <p className={styles.loading}>{message}</p>
+            )}
             {status === "success" && (
               <p className={styles.success}>{message}</p>
             )}

@@ -385,6 +385,12 @@
   font-weight: 600;
 }
 
+.loading {
+  margin: 0 0 0 auto;
+  color: #d9e3ff;
+  font-weight: 600;
+}
+
 .uploadActions {
   display: flex;
   align-items: center;
@@ -448,6 +454,7 @@
   }
 
   .success,
+  .loading,
   .error {
     margin-left: 0;
   }

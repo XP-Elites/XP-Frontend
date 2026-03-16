@@ -1,21 +1,10 @@
 import { useState } from "react";
 import styles from "../pages/pageCSS/Upload.module.css";
-import { postUploadFormData } from "./uploadClient";
+import { uploadFilesForAnalysis } from "./uploadAnalysis";
 import { validateUploadSize } from "./uploadValidation";
 
-export async function uploadFolder(input) {
-  const files = validateUploadSize(input);
-
-  if (files.length === 0) {
-    return;
-  }
-
-  const formData = new FormData();
-  files.forEach((file) => {
-    formData.append("folderFiles", file, file.webkitRelativePath || file.name);
-  });
-
-  await postUploadFormData(formData);
+export async function uploadFolder(input, options) {
+  return uploadFilesForAnalysis(input, "Folder upload", options);
 }
 
 function FolderUploader({ onSuccess, onError }) {
