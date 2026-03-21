@@ -1,0 +1,461 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 90vh;
+  padding: 0;
+}
+
+.layoutRow {
+  width: 160vh;
+  display: grid;
+  grid-template-columns: minmax(0, 68%) minmax(0, 30%);
+  gap: 28px;
+  align-items: stretch;
+}
+
+.box {
+  background-color: var(--box-bg);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: space-between;
+  height: 90vh;
+  max-height: 90vh;
+  padding: 28px;
+  border-radius: 20px;
+  box-shadow: 0 12px 32px rgba(149, 157, 165, 0.35);
+  overflow: hidden;
+}
+
+.summaryBox {
+  background-color: var(--box-bg);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  height: 90vh;
+  max-height: 90vh;
+  padding: 24px;
+  border-radius: 20px;
+  box-shadow: 0 12px 32px rgba(149, 157, 165, 0.35);
+  overflow: hidden;
+}
+
+.header {
+  background: linear-gradient(90deg, #5974df 0%, #5a7be6 100%);
+  border-radius: 12px 12px 0 0;
+  color: #fff;
+  padding: 12px 18px;
+  margin-bottom: 0;
+}
+
+.headerTitle {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.sectionLabel {
+  margin: 0;
+  padding: 16px 16px 0px 0px;
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: #232633;
+}
+
+.repoHeader {
+  margin: 0;
+  padding: 16px 16px 0px 16px;
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: #232633;
+}
+
+.options {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  align-items: stretch;
+  margin: 24px 0;
+}
+
+.optionCard {
+  min-width: 0;
+  overflow: hidden;
+  border-radius: 12px;
+  background: var(--input-bg);
+  display: flex;
+  flex-direction: column;
+}
+
+.optionBody {
+  padding: 0;
+  flex: 1;
+  min-height: 0;
+}
+
+.optionCard:last-child {
+  position: relative;
+  background: #f4f4f6;
+}
+
+.optionCard:last-child .sectionLabel {
+  display: none;
+}
+
+.optionCard:last-child::before {
+  content: "Upload Files";
+  position: absolute;
+  top: 14px;
+  left: 18px;
+  color: #22252d;
+  font-size: 1rem;
+  font-weight: 700;
+  z-index: 1;
+}
+
+.optionCard:last-child::after {
+  content: "Uploaded project attachments";
+  position: absolute;
+  top: 38px;
+  left: 18px;
+  color: #8b8d99;
+  font-size: 0.82rem;
+  z-index: 1;
+}
+
+.optionCard:last-child .optionBody {
+  padding: 64px 18px 18px;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.uploadSwitchRow {
+  display: flex;
+  margin-bottom: 18px;
+}
+
+.uploadModeLabel {
+  color: #5f6472;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.uploadSwitch {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px;
+  border-radius: 999px;
+  background: #e4e6eb;
+}
+
+.switchOption {
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: #5f6472;
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 8px 14px;
+  transition:
+    background-color 0.18s ease,
+    color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.switchOptionActive {
+  background: #ffffff;
+  color: #22252d;
+  box-shadow: 0 2px 10px rgba(34, 37, 45, 0.12);
+}
+
+.folderPicker {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.repoSection {
+  background-color: var(--input-bg);
+  border-radius: 0 0 12px 12px;
+  overflow: hidden;
+}
+
+.repoSectionBody {
+  padding: 12px 16px 16px;
+}
+
+.repoInput {
+  width: 100%;
+  border: none;
+  border-radius: 16px;
+  background-color: var(--box-bg);
+  color: var(--txt-main-color);
+  padding: 14px 16px;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.repoInput::placeholder {
+  color: var(--txt-second-color);
+}
+
+.folderCard {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.folderTitle {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #22252d;
+}
+
+.folderSubtitle {
+  margin: 8px 0 0;
+  color: #8b8d99;
+  line-height: 1.5;
+}
+
+.folderInput {
+  display: none;
+}
+
+.folderButton {
+  align-self: flex-start;
+  margin-top: 8px;
+  border: none;
+  border-radius: 999px;
+  background-color: #5974df;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 12px 18px;
+}
+
+.summary {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  flex-direction: column;
+}
+
+.summaryHeader {
+  margin-bottom: 16px;
+}
+
+.summaryMeta {
+  margin: 12px 0 0;
+  color: var(--txt-second-color);
+}
+
+.summaryBody {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 8px;
+  margin-bottom: 20px;
+}
+
+.summaryCardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.summaryCard,
+.fileItem {
+  background-color: var(--input-bg);
+  border-radius: 20px;
+}
+
+.summaryCard {
+  padding: 18px 16px;
+}
+
+.fileItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  min-width: 0;
+  padding: 18px 16px;
+}
+
+.fileDetails {
+  flex: 1;
+  min-width: 0;
+}
+
+.summaryCardTitle,
+.fileName {
+  margin: 0 0 8px;
+  font-weight: 600;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.summaryCardMeta,
+.fileMeta,
+.emptyState {
+  margin: 0;
+  color: var(--txt-second-color);
+}
+
+.codePreview {
+  margin: 12px 0 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font:
+    500 0.95rem/1.6 "Courier New",
+    Courier,
+    monospace;
+}
+
+.repoPreview {
+  margin: 12px 0 0;
+  color: var(--txt-main-color);
+  overflow-wrap: anywhere;
+}
+
+.fileList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.removeButton {
+  border: none;
+  background: transparent;
+  color: #c54c4c;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 0;
+  margin-left: auto;
+  text-align: right;
+  align-self: flex-start;
+  flex-shrink: 0;
+}
+
+.uploadButton {
+  align-self: flex-start;
+  border: none;
+  border-radius: 999px;
+  background-color: #1fa866;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 14px 22px;
+  margin-top: auto;
+}
+
+.resultsButton {
+  align-self: flex-start;
+  border: none;
+  border-radius: 999px;
+  background-color: #5974df;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 14px 22px;
+}
+
+.uploadButton:disabled {
+  background-color: #9bb9ab;
+  cursor: not-allowed;
+}
+
+.success {
+  margin: 0 0 0 auto;
+  color: aquamarine;
+  font-weight: 600;
+}
+
+.loading {
+  margin: 0 0 0 auto;
+  color: #d9e3ff;
+  font-weight: 600;
+}
+
+.uploadActions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.uploadButtonRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.error {
+  margin: 0 0 0 auto;
+  color: #ff6b6b;
+  font-weight: 600;
+}
+
+@media (max-width: 960px) {
+  .options {
+    grid-template-columns: 1fr;
+  }
+
+  .uploadSwitchRow {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .container {
+    align-items: flex-start;
+    min-height: auto;
+    padding: 24px 16px;
+  }
+
+  .layoutRow {
+    width: 100%;
+    grid-template-columns: 1fr;
+  }
+
+  .box,
+  .summaryBox {
+    height: auto;
+    max-height: none;
+    overflow: visible;
+  }
+
+  .summary {
+    min-height: auto;
+  }
+
+  .summaryBody {
+    flex: initial;
+    max-height: 320px;
+  }
+
+  .uploadButtonRow,
+  .uploadActions {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .success,
+  .loading,
+  .error {
+    margin-left: 0;
+  }
+}

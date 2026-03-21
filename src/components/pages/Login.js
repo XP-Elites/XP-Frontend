@@ -1,4 +1,4 @@
-import styles from "../UI/Login.module.css";
+import styles from "./pageCSS/Login.module.css";
 import Icons from "../icons/Icons";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -45,7 +45,7 @@ function Login() {
 
         <div className={styles.sign_log_container}>
           {status === "Login" ? (
-            <Link to="/home" className={styles.Login}>
+            <Link to="/upload" className={styles.Login}>
               {" "}
               Login
             </Link>
