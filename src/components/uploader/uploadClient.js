@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE = "http://localhost:8000";
+const API_BASE = "https://api.xp.cattoindustries.com";
 const UPLOAD_TIMEOUT_MS = 30000;
 const STATUS_TIMEOUT_MS = 8000;
 const POLL_INTERVAL_MS = 1500;
