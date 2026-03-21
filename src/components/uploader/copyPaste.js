@@ -1,14 +1,21 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import styles from "./copyPaste.module.css";
-import { postUploadJson } from "./uploadClient";
+import { uploadFilesForAnalysis } from "./uploadAnalysis";
 
-export async function uploadCopyPaste(code) {
+function createPastedCodeFile(code) {
+  return new File([code], "pasted_code.py", {
+    type: "text/x-python",
+  });
+}
+
+export async function uploadCopyPaste(code, options = {}) {
   if (!code || !code.trim()) {
     return;
   }
 
-  return postUploadJson({ code });
+  const pastedCodeFile = createPastedCodeFile(code);
+  return uploadFilesForAnalysis([pastedCodeFile], "Pasted code", options);
 }
 
 function CopyPaste({

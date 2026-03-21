@@ -6,14 +6,15 @@ import CopyPaste, { uploadCopyPaste } from "../uploader/copyPaste.js";
 import { uploadFile } from "../uploader/fileUpload.js";
 import { uploadFolder } from "../uploader/folderUpload.js";
 import { uploadRepo } from "../uploader/repoUpload.js";
-import {
-  getJobStatusMessage,
-  getUploadErrorMessage,
-} from "../uploader/uploadClient.js";
+import { getJobStatusMessage, getUploadErrorMessage } from "../uploader/uploadClient.js";
 import {
   clearLatestUploadResult,
   setLatestUploadResult,
 } from "../uploader/uploadResultStore.js";
+import {
+  mergeUploadResponses,
+  resolveAnalysisResponse,
+} from "../uploader/uploadResultAggregation.js";
 import { validateUploadSize } from "../uploader/uploadValidation.js";
 
 function Upload() {
@@ -98,11 +99,6 @@ function Upload() {
     }
 
     resetUploadFeedback();
-    if (nextMode === "files") {
-      setFolderFiles([]);
-    } else {
-      setFiles([]);
-    }
     setUploadMode(nextMode);
   };
 
@@ -122,9 +118,8 @@ function Upload() {
   };
 
   const handleJobStatusUpdate = (statusPayload) => {
-    const nextMessage = getJobStatusMessage(statusPayload);
-    if (nextMessage) {
-      handleLoading(nextMessage);
+    if (getJobStatusMessage(statusPayload)) {
+      handleLoading("Analysing uploads...");
     }
   };
 
@@ -135,61 +130,78 @@ function Upload() {
     setLastUploadResult(null);
     clearLatestUploadResult();
     setIsUploading(true);
-    handleLoading("Starting upload...");
-    let latestUploadResult = null;
-    const hasFileUpload =
-      (uploadMode === "files" && files.length > 0) ||
-      (uploadMode === "folder" && folderFiles.length > 0);
+    handleLoading("Analysing uploads...");
+    const uploadResponses = [];
 
     try {
-      // /upload/files expects multipart file uploads. Only use JSON uploads
-      // when no file/folder payload is being sent in this request.
-      if (!hasFileUpload && code.trim()) {
-        const response = await uploadCopyPaste(code);
+      if (code.trim()) {
+        const response = await uploadCopyPaste(code, {
+          onStatusChange: handleJobStatusUpdate,
+        });
         if (response) {
-          latestUploadResult = response;
+          uploadResponses.push({
+            sourceType: "code",
+            sourceLabel: "Pasted code",
+            response,
+          });
         }
       }
 
-      if (!hasFileUpload && repoLink.trim()) {
+      if (repoLink.trim()) {
         const response = await uploadRepo(repoLink.trim(), {
           onStatusChange: handleJobStatusUpdate,
         });
         if (response) {
-          latestUploadResult = response;
+          uploadResponses.push({
+            sourceType: "repository",
+            sourceLabel: "GitHub repository",
+            response,
+          });
         }
       }
 
-      if (uploadMode === "files" && files.length > 0) {
+      if (files.length > 0) {
         const response = await uploadFile(files, {
           onStatusChange: handleJobStatusUpdate,
         });
         if (response) {
-          latestUploadResult = response;
+          uploadResponses.push({
+            sourceType: "files",
+            sourceLabel: "Files",
+            response,
+          });
         }
       }
 
-      if (uploadMode === "folder" && folderFiles.length > 0) {
+      if (folderFiles.length > 0) {
         const response = await uploadFolder(folderFiles, {
           onStatusChange: handleJobStatusUpdate,
         });
         if (response) {
-          latestUploadResult = response;
+          uploadResponses.push({
+            sourceType: "folder",
+            sourceLabel: "Folder",
+            response,
+          });
         }
       }
 
-      setLastUploadResult(latestUploadResult);
-      if (latestUploadResult) {
-        setLatestUploadResult(latestUploadResult);
+      const nextUploadResult = mergeUploadResponses(uploadResponses);
+      const hasAnalysis = Boolean(resolveAnalysisResponse(nextUploadResult));
+      const hasPendingJobs = uploadResponses.some(
+        ({ response }) => response?.uuid && !resolveAnalysisResponse(response),
+      );
+
+      setLastUploadResult(nextUploadResult);
+      if (nextUploadResult) {
+        setLatestUploadResult(nextUploadResult);
       }
-      if (
-        latestUploadResult?.results ||
-        latestUploadResult?.cyclomatic_complexity
-      ) {
+
+      if (hasAnalysis && !hasPendingJobs) {
         handleSuccess("Upload and analysis completed successfully!");
-      } else if (latestUploadResult?.uuid) {
+      } else if (uploadResponses.length > 0) {
         handleSuccess(
-          `Upload accepted (UUID: ${latestUploadResult.uuid}). Analysis is still processing.`,
+          "Upload accepted. Analysis is still processing.",
         );
       } else {
         handleSuccess("Upload completed successfully!");
@@ -306,7 +318,7 @@ function Upload() {
                 onClick={handleUpload}
                 disabled={!hasUploadContent || isUploading}
               >
-                {isUploading ? "Uploading..." : "Upload selected content"}
+                {isUploading ? "Analysing..." : "Upload selected content"}
               </button>
 
               {status === "success" && (

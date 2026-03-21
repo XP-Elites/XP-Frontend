@@ -3,58 +3,13 @@ import { useLocation } from "react-router-dom";
 import styles from "./pageCSS/Results.module.css";
 import TdiBar from "../results/scoreBar/score";
 import { getLatestUploadResult } from "../uploader/uploadResultStore";
+import { resolveAnalysisResponse } from "../uploader/uploadResultAggregation";
 
 const fallbackAnalysisResponse = {};
 
 function toNumber(value) {
   const numberValue = Number(value);
   return Number.isFinite(numberValue) ? numberValue : 0;
-}
-
-function parseMaybeJson(value) {
-  if (typeof value !== "string") {
-    return value;
-  }
-
-  const trimmed = value.trim();
-  if (
-    (trimmed.startsWith("{") && trimmed.endsWith("}")) ||
-    (trimmed.startsWith("[") && trimmed.endsWith("]"))
-  ) {
-    try {
-      return JSON.parse(trimmed);
-    } catch {
-      return value;
-    }
-  }
-
-  return value;
-}
-
-function resolveAnalysisResponse(rawState) {
-  const source = parseMaybeJson(rawState || getLatestUploadResult());
-
-  if (!source) {
-    return fallbackAnalysisResponse;
-  }
-
-  if (source?.results) {
-    return parseMaybeJson(source.results);
-  }
-
-  if (source?.analysisResponse?.results) {
-    return source.analysisResponse.results;
-  }
-
-  if (source?.analysisResponse) {
-    return source.analysisResponse;
-  }
-
-  if (source?.cyclomatic_complexity) {
-    return source;
-  }
-
-  return fallbackAnalysisResponse;
 }
 
 function sortEntries(entries, sortBy) {
@@ -82,10 +37,14 @@ function Results() {
   const location = useLocation();
   const [selectedKey, setSelectedKey] = useState("total");
   const [sortBy, setSortBy] = useState("complexity");
+  const rawResultPayload = useMemo(
+    () => location.state || getLatestUploadResult(),
+    [location.state],
+  );
 
   const analysisResponse = useMemo(
-    () => resolveAnalysisResponse(location.state),
-    [location.state],
+    () => resolveAnalysisResponse(rawResultPayload) || fallbackAnalysisResponse,
+    [rawResultPayload],
   );
 
   const complexityMap = analysisResponse.cyclomatic_complexity || {};
@@ -161,11 +120,6 @@ function Results() {
     selectedKey === "total"
       ? totalEntry
       : fileEntries.find((entry) => entry.key === selectedKey) || totalEntry;
-
-  const rawResultPayload = useMemo(
-    () => location.state || getLatestUploadResult(),
-    [location.state],
-  );
 
   const hasMetrics =
     fileEntries.length > 0 ||
