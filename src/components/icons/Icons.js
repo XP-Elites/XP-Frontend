@@ -5,7 +5,7 @@ import * as Fa6Icons from "react-icons/fa6";
 
 const iconLibraries = [MdIcons, FaIcons, Fa6Icons];
 
-const Icons = ({ icon, size = 18, style = "Default" }) => {
+const Icons = ({ icon, size = 18, variant = "Default" }) => {
   let IconComponent;
   for (const lib of iconLibraries) {
     if (lib[icon]) {
@@ -14,7 +14,7 @@ const Icons = ({ icon, size = 18, style = "Default" }) => {
     }
   }
   if (!IconComponent) return null;
-  const iconStyle = styles[style] || styles.Default;
+  const iconStyle = styles[variant] || styles.Default;
   return <IconComponent size={size} color={iconStyle.color} />;
 };
 

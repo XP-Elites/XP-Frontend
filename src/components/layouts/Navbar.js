@@ -24,7 +24,7 @@ function Navbar(props) {
         </NavLink>
         <NavLink to="/upload" className={styles.navLink}>
           <div className={styles.navLinkContent}>
-            <Icons icon="FaCode" size={30} style="Black" />
+            <Icons icon="FaCode" size={30} variant="Black" />
             <span className={styles.iconText}>Upload</span>
           </div>
         </NavLink>
@@ -32,7 +32,7 @@ function Navbar(props) {
       <div className={styles.navItemTop}>
         <NavLink to="/archive" className={styles.navLink}>
           <div className={styles.navLinkContent}>
-            <Icons icon="FaBoxArchive" size={30} style="Black" />
+            <Icons icon="FaBoxArchive" size={30} variant="Black" />
             <span className={styles.iconText}>Archive</span>
           </div>
         </NavLink>
@@ -40,7 +40,7 @@ function Navbar(props) {
       <div className={styles.navItem}>
         <NavLink to="/" className={styles.navLink}>
           <div className={styles.navLinkContent}>
-            <Icons icon="MdPerson" size={40} style="Black" />
+            <Icons icon="MdPerson" size={40} variant="Black" />
           </div>
         </NavLink>
       </div>
