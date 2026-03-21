@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import styles from "../pages/pageCSS/Header.module.css";
 
 function Header(props) {
   // Properties
@@ -11,11 +12,8 @@ function Header(props) {
 
   // View
   return (
-    <header>
-      <p1></p1>
-      <Link to="/">
-        <h1>XP Coursework</h1>
-      </Link>
+    <header className={styles.header}>
+      <Link to="/">{/* <h1 className={styles.TitleLogo}></h1> */}</Link>
     </header>
   );
 }
