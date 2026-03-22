@@ -6,7 +6,10 @@ import CopyPaste, { uploadCopyPaste } from "../uploader/copyPaste.js";
 import { uploadFile } from "../uploader/fileUpload.js";
 import { uploadFolder } from "../uploader/folderUpload.js";
 import { uploadRepo } from "../uploader/repoUpload.js";
-import { getJobStatusMessage, getUploadErrorMessage } from "../uploader/uploadClient.js";
+import {
+  getJobStatusMessage,
+  getUploadErrorMessage,
+} from "../uploader/uploadClient.js";
 import {
   clearLatestUploadResult,
   setLatestUploadResult,
@@ -200,9 +203,7 @@ function Upload() {
       if (hasAnalysis && !hasPendingJobs) {
         handleSuccess("Upload and analysis completed successfully!");
       } else if (uploadResponses.length > 0) {
-        handleSuccess(
-          "Upload accepted. Analysis is still processing.",
-        );
+        handleSuccess("Upload accepted. Analysis is still processing.");
       } else {
         handleSuccess("Upload completed successfully!");
       }

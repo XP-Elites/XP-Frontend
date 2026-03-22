@@ -81,27 +81,31 @@ function parseMaybeJson(value) {
 }
 
 export function getJobStatusMessage(statusPayload) {
-  const jobStatus = (statusPayload?.status || "").toString().toUpperCase();
+  const rawStatus = statusPayload?.status;
   const uuidSuffix = statusPayload?.uuid ? ` (${statusPayload.uuid})` : "";
 
-  if (jobStatus === "COMPLETE") {
+  if (Number(rawStatus) === 2) {
     return `Analysis complete. Finalizing results...`;
   }
 
-  if (jobStatus === "PROCESSING") {
+  if (Number(rawStatus) === 1 || rawStatus === "PROCESSING") {
     return `Analysis in progress...`;
   }
 
-  if (jobStatus === "IN_QUEUE") {
+  if (Number(rawStatus) === 0 || rawStatus === "IN_QUEUE") {
     return `Upload accepted, processing...`;
   }
 
-  if (jobStatus === "ERROR" || jobStatus === "FAILED") {
+  if (
+    Number(rawStatus) === 500 ||
+    rawStatus === "ERROR" ||
+    rawStatus === "FAILED"
+  ) {
     return `Analysis failed${uuidSuffix}.`;
   }
 
-  if (jobStatus) {
-    return `Job status: ${jobStatus}${uuidSuffix}`;
+  if (rawStatus !== undefined && rawStatus !== null && rawStatus !== "") {
+    return `Job status: ${rawStatus}${uuidSuffix}`;
   }
 
   return "";
@@ -128,7 +132,7 @@ function hasAnalysisData(payload) {
     return false;
   }
 
-  if (parsed.results && typeof parsed.results === "object") {
+  if (parsed.result && typeof parsed.result === "object") {
     return true;
   }
 
@@ -161,19 +165,23 @@ export async function waitForJobResult(
 
   while (!hasTimeout || Date.now() - started < timeoutMs) {
     const statusPayload = await getJobStatus(uuid);
-    const status = (statusPayload?.status || "").toString().toUpperCase();
+    const status = Number(statusPayload?.status);
     onStatusChange?.(statusPayload);
 
-    if (status === "COMPLETE") {
-      return statusPayload.results;
+    if (status === 2) {
+      return statusPayload.result;
     }
 
-    if (status === "ERROR" || status === "FAILED") {
+    if (
+      status === 500 ||
+      statusPayload?.status === "ERROR" ||
+      statusPayload?.status === "FAILED"
+    ) {
       throw new Error("Worker processing failed");
     }
 
     if (hasAnalysisData(statusPayload)) {
-      return statusPayload.results || statusPayload;
+      return statusPayload.result || statusPayload;
     }
 
     await delay(pollMs);
@@ -184,11 +192,11 @@ export async function waitForJobResult(
 
 export async function pollAnalysisByUuid(uuid, options) {
   try {
-    const results = await waitForJobResult(uuid, options);
+    const result = await waitForJobResult(uuid, options);
     return {
       uuid,
-      status: "COMPLETE",
-      results,
+      status: 2,
+      result,
     };
   } catch (error) {
     if (error.message === "Timed out waiting for processing result") {

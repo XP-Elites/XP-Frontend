@@ -1,46 +1,9 @@
 import { useState } from "react";
 import styles from "./repoUpload.module.css";
-import { pollAnalysisByUuid, postGitLink } from "./uploadClient";
+import { postGitLink } from "./uploadClient";
+import { resolveUploadResponse } from "./uploadAnalysis";
 
 const githubPattern = /^https:\/\/github\.com\/[\w.-]+\/[\w.-]+\/?$/;
-
-function parseUploadData(rawData) {
-  if (!rawData) {
-    return {};
-  }
-
-  if (typeof rawData === "string") {
-    const trimmed = rawData.trim();
-
-    if (
-      (trimmed.startsWith("{") && trimmed.endsWith("}")) ||
-      (trimmed.startsWith("[") && trimmed.endsWith("]"))
-    ) {
-      try {
-        return JSON.parse(trimmed);
-      } catch {
-        return { uuid: trimmed };
-      }
-    }
-
-    return { uuid: trimmed };
-  }
-
-  return rawData;
-}
-
-function extractUuid(data) {
-  return (
-    data?.uuid ||
-    data?.UUID ||
-    data?.uid ||
-    data?.jobId ||
-    data?.job_id ||
-    data?.data?.uuid ||
-    data?.result?.uuid ||
-    data?.results?.uuid
-  );
-}
 
 export async function uploadRepo(link, options = {}) {
   if (!githubPattern.test(link)) {
@@ -50,47 +13,7 @@ export async function uploadRepo(link, options = {}) {
   }
 
   const rawData = await postGitLink({ git_link: link });
-  const data = parseUploadData(rawData);
-  const uuid = extractUuid(data);
-
-  if (!uuid) {
-    console.error("Repository upload payload missing UUID:", data);
-    throw new Error(
-      "Repository upload succeeded but uuid is missing from response",
-    );
-  }
-
-  options.onStatusChange?.({
-    uuid,
-    status: data?.status || "IN_QUEUE",
-  });
-
-  if (data?.results || data?.cyclomatic_complexity) {
-    return {
-      ...data,
-      uuid,
-    };
-  }
-
-  try {
-    const polledResult = await pollAnalysisByUuid(uuid, {
-      onStatusChange: options.onStatusChange,
-    });
-    const polledData = parseUploadData(polledResult);
-
-    return {
-      ...data,
-      ...polledData,
-      uuid,
-    };
-  } catch (error) {
-    console.error("Failed to fetch repository result by UUID:", error.message);
-    return {
-      ...data,
-      uuid,
-      status: data?.status || "PENDING",
-    };
-  }
+  return resolveUploadResponse(rawData, "Repository upload", options);
 }
 
 function RepoUploader({ onSuccess, onError }) {

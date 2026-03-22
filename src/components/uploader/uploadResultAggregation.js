@@ -30,12 +30,12 @@ export function resolveAnalysisResponse(rawState) {
     return null;
   }
 
-  if (source?.results) {
-    return parseMaybeJson(source.results);
+  if (source?.result) {
+    return parseMaybeJson(source.result);
   }
 
-  if (source?.analysisResponse?.results) {
-    return parseMaybeJson(source.analysisResponse.results);
+  if (source?.analysisResponse?.result) {
+    return parseMaybeJson(source.analysisResponse.result);
   }
 
   if (source?.analysisResponse) {
@@ -129,7 +129,7 @@ export function mergeUploadResponses(entries) {
   cyclomatic_complexity.total = total;
 
   return {
-    results: {
+    result: {
       cyclomatic_complexity,
       file_metrics,
     },
